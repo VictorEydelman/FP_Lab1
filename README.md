@@ -52,8 +52,8 @@ Find the value of d < 1000 for which 1/d contains the longest recurring cycle in
       ([] (ex7_1_2 3 1))
       ([num kol] (if (< kol 10001)
                    (if (pr? num)
-                     (recur (inc num) (inc kol))
-                     (recur (inc num) kol))
+                     (ex7_1_2 (inc num) (inc kol))
+                     (ex7_1_2 (inc num) kol))
                    (dec num))))
 ```
 Для решения с помощью рекурсии используем похожий код как и в хвостовой рекурсии, с изменением начального вызова функции.
