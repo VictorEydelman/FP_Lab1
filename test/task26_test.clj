@@ -1,4 +1,4 @@
-(ns test.task26-test
+(ns test.task26_test
     (:require [clojure.test :refer [deftest testing is run-tests]]
       [task26 :refer [ex26 ex26_1_2 ex26_2 ex26_3 ex26_4 ex26_5]]))
 
