@@ -1,4 +1,4 @@
-package src.java;
+
 
 public class task7 {
     public static boolean pr(int num){
