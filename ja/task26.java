@@ -1,5 +1,6 @@
 package src.java;
 
+
 public class task26 {
     public static int index(int[] l, int arg){
         for(int i=0; i<l.length; i++){

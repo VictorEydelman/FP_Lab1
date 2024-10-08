@@ -1,5 +1,3 @@
-
-
 public class task7 {
     public static boolean pr(int num){
         for(int i=2;i<=Math.sqrt(num);i++){
