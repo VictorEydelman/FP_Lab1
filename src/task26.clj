@@ -40,13 +40,13 @@
 (defn ex26_4 []
       (let [max (atom 0) num (atom 0)] (doseq [i (range 1 1000)]
               (when (> (cou i) @max)
-                    (do (reset! max (cou i)) (reset! num i)))
+                    ( (reset! max (cou i)) (reset! num i)))
         )@num))
 
 (defn infinite-sequence []
   (iterate inc 1))
 
 (defn ex26_5 []
-      (loop [i (map cou (take 1000 (infinite-sequence)))]
+      (let [i (map cou (take 1000 (infinite-sequence)))]
             (inc (index i (reduce max i)))))
 
