@@ -9,19 +9,19 @@
          (if (some #{(rem n i)} l)
            (inc (index l (rem n i)))
            (if (zero? (rem n i)) 1 (cou (rem n i) i (conj l (rem n i))))))))
-(defn ex26
-      ([] (ex26 1000 0 0))
-      ([i max num]
-       (if (> i 0)
-         (ex26 (dec i) (if (> (cou i) max) (cou i) max) (if (> (cou i) max) i num))
-         num)))
 
-
-(defn ex26_1_2 []
+(defn ex26 []
       (loop [i 1000 max 0 num 0]
             (if (> i 0)
               (recur (dec i) (if (> (cou i) max) (cou i) max) (if (> (cou i) max) i num))
               num)))
+
+(defn ex26_1_2
+      ([] (ex26_1_2 1000 0 0))
+      ([i max num]
+       (if (> i 0)
+         (ex26_1_2 (dec i) (if (> (cou i) max) (cou i) max) (if (> (cou i) max) i num))
+         num)))
 
 (defn generate []
       (for [d (range 1 1000)] (cou d)))
@@ -36,9 +36,6 @@
       (->> (generate3) (apply max)))
 (defn ex26_3 []
       (inc (index (generate3) (maxim3))))
-
-;(println (ex26_2))
-;(println (time (ex26_2)))
 
 (defn ex26_4 []
       (let [max (atom 0) num (atom 0)] (doseq [i (range 1 1000)]
