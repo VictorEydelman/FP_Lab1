@@ -1,5 +1,5 @@
 (ns test.task7-test
-    (:require [clojure.test :refer [deftest testing are run-tests]]
+    (:require [clojure.test :refer [deftest testing is run-tests]]
       [task7 :refer [ex7 ex7_1_2 ex7_2 ex7_3 ex7_4 ex7_5]]))
 
 (deftest test-ex7_1_1
