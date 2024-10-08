@@ -1,15 +1,15 @@
-### Лабораторная работа №1
+# Лабораторная работа №1
 
 Выполнил: Эйдельман Виктор Аркадьевич</br>
 Вариант: 7,26
 
 ## Условие проблем Эйлера:
 
-Проблема Эйлера №7:</br>
+### Проблема Эйлера №7:</br>
 By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
 What is the 10001st prime number?
 
-Проблема Эйлера №26:</br>
+### Проблема Эйлера №26:</br>
 A unit fraction contains 1 in the numerator. The decimal representation of the unit fractions with denominators 2 to 10 are given:
 1/2 = 0.5</br>
 1/3 = 0.(3)</br>
@@ -24,7 +24,7 @@ Where 0.1(6) means 0.166666, and has a 1-digit recurring cycle. It can be seen t
 Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 
 ## Решение:
-# Проблема №7:
+### Проблема №7:
 ```
 (defn pr? [num]
       (loop [i (int (Math/sqrt num))]
@@ -95,10 +95,39 @@ Find the value of d < 1000 for which 1/d contains the longest recurring cycle in
             (take n)
             (apply max))))
 ```
+
 Для решения генирируется большая последовательность, она фильтруется на простое число и берётся первые 10001 и берётся максимальное
 
 
-# Проблема №26
+6) Решения на java:
+
+```
+public class task7 {
+    public static boolean pr(int num){
+        for(int i=2;i<=Math.sqrt(num);i++){
+            if(num%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void main(String[] args) {
+        int kol = 0;
+        int num = 2;
+        while (kol<10001){
+            if(pr(num)){
+                kol++;
+            }
+            num++;
+        }
+        System.out.println(num-1);
+    }
+}
+```
+
+
+### Проблема №26
+
 ```
 (defn index ([l arg] (index l arg 0))
       ([l arg i] (if (= arg (nth l i)) i (index l arg (inc i)))))
@@ -137,7 +166,9 @@ Find the value of d < 1000 for which 1/d contains the longest recurring cycle in
          (ex26_1_2 (dec i) (if (> (cou i) max) (cou i) max) (if (> (cou i) max) i num))
          num)))
 ```
-Для решения используется 
+Для решения используется реализация похожая на хвостовую рекурсию, но без loop
+
+2)модульной реализации, где явно разделена генерация последовательности, фильтрация и свёртка:
 ```
 (defn generate []
       (for [d (range 1 1000)] (cou d)))
@@ -145,24 +176,84 @@ Find the value of d < 1000 for which 1/d contains the longest recurring cycle in
    (->> (generate) (reduce max)))
 (defn ex26_2 []
       (inc (index (generate) (maxim))))
+```
+Для решения сначала генирируется последовательность из длин циклов в 1/d при d от 1 до 1000, затем свёрткой находим максимум и затем находим номер максимума в нашей последовательности
 
+3)генерация последовательности при помощи отображения (map):
+```
 (defn generate3 []
       (map cou (range 1 (inc 1000))))
 (defn maxim3 []
       (->> (generate3) (apply max)))
 (defn ex26_3 []
       (inc (index (generate3) (maxim3))))
+```
+Для решения применяется метод схожий с предыдущим, только для генирации используется map и вместо reduce - apply
 
+4)работа со спец. синтаксисом для циклов:
+```
 (defn ex26_4 []
       (let [max (atom 0) num (atom 0)] (doseq [i (range 1 1000)]
               (when (> (cou i) @max)
                     (do (reset! max (cou i)) (reset! num i)))
         )@num))
+```
+Для решения используются doseq и atom-ы с reset!
 
+5)работа с бесконечными списками для языков, поддерживающих ленивые коллекции или итераторы как часть языка:
+```
 (defn infinite-sequence []
   (iterate inc 1))
 
 (defn ex26_5 []
-      (loop [i (map cou (take 1000 (infinite-sequence)))]
+      (let [i (map cou (take 1000 (infinite-sequence)))]
             (inc (index i (reduce max i)))))
 ```
+Для решения генирируется бесконечная последовательность, из которой берутся первые 1000 элементов, которые с помощью map переходят в последовательность, а затем находится максимальный элемент и его номер в последовательности
+
+6)Решение на java:
+
+```
+public class task26 {
+    public static int index(int[] l, int arg){
+        for(int i=0; i<l.length; i++){
+            if(l[i]==arg){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static int cou(int num){
+        int i = 1;
+        int[] l=new int[num+1];
+        int k=0;
+        while (i!=0) {
+            while (i < num) {
+                i *= 10;
+            }
+            i = i%num;
+            if(index(l,i)!=-1) {
+                return (k - index(l, i));
+            }
+            l[k] = i;
+            k++;
+        }
+        return 1;
+    }
+    public static void main(String[] args) {
+        int m=0;
+        int n=0;
+        for (int d = 1; d <=1000; d++) {
+            int c=cou(d);
+            if(c>m){
+                m=c;
+                n=d;
+            }
+        }
+        System.out.println(n);
+    }
+}
+```
+
+## Вывод:
+В результате выполнения лабораторной работы, я смог попрактиковаться в использование различных технологий и основных концепций функционального программирования.
